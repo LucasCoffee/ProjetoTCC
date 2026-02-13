@@ -1,12 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState} from "react";
-import { Inoticias } from "@/src/Interfaces/Inoticias";
+import { InoticiasProcessadas } from "@/src/Interfaces/InoticiasProcessadas";
 import ContainerNoticias from "@/components/feed/ContainerNoticias";
 
 function Feed(){
 
-    const [noticias, setNoticias] = useState<Inoticias[]>([])
+    const [noticias, setNoticias] = useState<InoticiasProcessadas[]>([])
     const blocosRef = useRef<HTMLElement[]>([])
     const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -16,7 +16,6 @@ function Feed(){
             try {
                 const request = await fetch("/api/news/everything")
                 const response = await request.json()
-
                 setNoticias(response)
             } catch (e) {
                 console.error("Erro ao buscar notícias", e);

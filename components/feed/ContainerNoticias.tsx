@@ -1,9 +1,9 @@
 
 import BlocoNoticia from "@/components/noticia/blocoNoticia";
-import { Inoticias } from "@/src/Interfaces/Inoticias";
+import { InoticiasProcessadas} from "@/src/Interfaces/InoticiasProcessadas";
 
 interface IcontainerNoticias{
-    noticias: Inoticias[],
+    noticias: InoticiasProcessadas[],
     registroDeBlocos: (parms1: HTMLDivElement | null, parms2: number ) => void;
 }
 

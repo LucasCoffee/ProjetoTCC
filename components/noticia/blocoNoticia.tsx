@@ -1,8 +1,8 @@
 import Image from "next/image"
-import { Inoticias } from "@/src/Interfaces/Inoticias"
+import { InoticiasProcessadas } from "@/src/Interfaces/InoticiasProcessadas"
 
 interface NoticiasProps{
-    noticia: Inoticias,
+    noticia: InoticiasProcessadas,
     refCallback: (el: HTMLDivElement | null) => void
 }
 const BlocoNoticia = ({noticia, refCallback} : NoticiasProps ) => {
