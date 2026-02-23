@@ -11,4 +11,4 @@ const SchemaUsuario = new Schema<usuario>({
 
 const modelUsuario: Model<usuario> = mongoose.models.usuario 
                         || mongoose.model<usuario>("usuario", SchemaUsuario, "UsuarioCliente")
-export default modelUsuario
+export default modelUsuario  

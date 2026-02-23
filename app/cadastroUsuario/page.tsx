@@ -1,4 +1,20 @@
+import { FormEvent } from "react";
+
 export default function Perfil() {
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
+    event.preventDefault()
+
+    const response = await fetch('/api/usuario', {
+      method: 'POST',
+      body: JSON.stringify(new FormData(event.currentTarget)),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+  
+
   return (
     <main className="min-h-[calc(100vh-56px)] bg-gray-100 px-4 py-6 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
@@ -9,7 +25,7 @@ export default function Perfil() {
           </p>
         </header>
 
-        <form className="space-y-5" action="#" method="post">
+        <form className="space-y-5" action="#" method="post" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <label htmlFor="nome" className="text-sm font-medium text-gray-800">
               Nome

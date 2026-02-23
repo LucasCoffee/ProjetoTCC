@@ -1,44 +1,44 @@
+import { IRepository } from "../Interfaces/IRespository"
 export class Service<T>{
-    constructor(private repository: any){}
-
-    async criar(data: Partial<T>){
+    constructor(private repository: IRepository<T>){}
+    async create(data: Partial<T>): Promise<T>{
         try {
-            return this.repository.criar(data) 
+            return this.repository.create(data) 
         } catch (error) {
             throw new Error(`${error}`)
         }
     }
 
-    async listarTodos(){
+    async find(filter: any): Promise<T[]>{
         try {
-            return this.repository.listarTodos() 
+            return this.repository.find(filter) 
         } catch (error) {
             throw new Error(`${error}`)
         }
         
     }
 
-    async buscarPorId(id: string){
+    async findById(id: string): Promise<T | null>{
         try {
-            return this.repository.buscarPorId(id) 
+            return this.repository.findById(id) 
         } catch (error) {
             throw new Error(`${error}`)
         }
        
     }
 
-    async atualizar(id: string, data: Partial<T>) {
+    async findByIdAndUpdate(id: string, data: Partial<T>): Promise<T | null>{
         try {
-            return await this.repository.atualizar(id, data)
+            return await this.repository.findByIdAndUpdate(id, data)
         } catch (error) {
             throw new Error(`${error}`)
         }
     
     }
 
-    async deletar(id: string) {
+    async findByIdAndDelete(id: string, data: Partial<T>): Promise<T | null> {
         try {
-            return await this.repository.deletar(id)
+            return await this.repository.findByIdAndUpdate(id, data)
         } catch (error) {
             throw new Error(`${error}`)
         }

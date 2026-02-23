@@ -4,4 +4,4 @@ export interface usuario{
     telefone: Number,
     assuntos: String[],
     codigoAcesso: String
-}
+}  

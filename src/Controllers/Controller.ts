@@ -1,24 +1,23 @@
-
 export class Controller<T>{
     constructor(private service: any){}
 
-    async criar(data: Partial<T>){
-        return this.service.criar(data) 
+    async create(data: Partial<T>){
+        return this.service.create(data) 
     }
 
-    async listarTodos(){
-        return this.service.listarTodos()
+    async find(){
+        return this.service.find()
     }
 
-    async buscarPorId(id: string){
-        return this.service.buscarPorId(id)
+    async findById(id: string){
+        return this.service.findById(id)
     }
 
-    async atualizar(id: string, data: Partial<T>) {
-    return await this.service.atualizar(id, data)
+    async findByIdAndUpdate(id: string, data: Partial<T>) {
+    return await this.service.findByIdAndUpdate(id, data)
     }
 
-    async deletar(id: string) {
-        return await this.service.deletar(id)
+    async findByIdAndDelete(id: string) {
+        return await this.service.findByIdAndDelete(id)
     }
 }
