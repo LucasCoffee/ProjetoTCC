@@ -1,5 +1,9 @@
 import mongoose, {Model, Schema } from "mongoose";
 import { usuario } from "@/src/Interfaces/IUsuario";
+import { connectToDatabase } from "../Conection";
+
+connectToDatabase()
+
 
 const SchemaUsuario = new Schema<usuario>({
     nome: String,

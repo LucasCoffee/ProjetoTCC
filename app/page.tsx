@@ -1,4 +1,7 @@
-import BotaoFeed from "@/components/base/BotaoFeed";
+import ContainerTopicos from "@/components/PaginaInicia/containerTopicos";
+import Footer from "@/components/base/footer";
+import dados from "./noti.json"
+
 
 export default function Home() {
   return (
@@ -11,7 +14,12 @@ export default function Home() {
           </p>
         </div>
       </section>
-      <BotaoFeed/>
+      <section>
+        <ContainerTopicos noticias={dados}></ContainerTopicos>
+        <ContainerTopicos noticias={dados}></ContainerTopicos>
+        <ContainerTopicos noticias={dados}></ContainerTopicos> 
+      </section>
+      <Footer/>
     </>
     
   )

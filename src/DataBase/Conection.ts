@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 var isConnected = false
 export const connectToDatabase = async (): Promise<void> => {
     const URL = process.env.DB_CONN_STRING
-
+    console.log("EXECUCAO")
     if (isConnected) return
 
     if (!URL) {

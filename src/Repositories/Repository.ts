@@ -1,5 +1,6 @@
 import { IRepository } from "../Interfaces/IRespository"
-export class Repository<T>{
+
+export class Repository<T> {
     constructor(private model: IRepository<T> ){
        
     }

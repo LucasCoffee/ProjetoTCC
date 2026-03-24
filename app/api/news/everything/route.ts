@@ -2,6 +2,7 @@ import  {NextResponse} from 'next/server';
 import axios from 'axios';
 import type {Inoticias} from "@/src/Interfaces/Inoticias"
 import type { InoticiasProcessadas } from '@/src/Interfaces/InoticiasProcessadas';
+import enviarParaTokenizacao from '@/src/n8n/ComunicaoN8N';
 const chave = process.env.NEWS_API_KEY;
 
 const createSlug = (text: string) => text.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
@@ -20,19 +21,26 @@ export async function GET(){
               url: artigo.url,
               urlToImage: artigo.urlToImage,
               publishedAt: new Date(artigo.publishedAt),
-              tags: ["artigo", "teste"]
+              tags: []
               
             }
         })
+
+
+        enviarParaTokenizacao(noticiasProcessadas)
+
         
         return NextResponse.json(noticiasProcessadas)
 
       }else{
+        console.log("Erro no everthing")
         return NextResponse.json({message: "erro de busca"})
       }
       
   } catch (error) {
-    console.log(error)
+      console.log(error)
+              console.log("Erro no everthing")
+
       return NextResponse.json({message: "erro de busca"})
   }
   

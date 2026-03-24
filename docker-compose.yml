@@ -1,0 +1,15 @@
+services:
+  notificador:
+    image: image-tcc
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app            # Espelha sua pasta atual na pasta /app do container
+      - /app/node_modules # Protege os pacotes internos (evita conflito com a maquina local)
+    environment:
+      - NODE_ENV=development
+    command: npm run dev  # Sobrescreve o CMD do Dockerfile para modo dev
+  

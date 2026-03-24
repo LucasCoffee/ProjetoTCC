@@ -1,23 +1,34 @@
 import { NextResponse } from "next/server";
-import modelUsuario from "@/src/DataBase/Models/ModelUsuario";
-import { ControllerUsuario } from "@/src/Controllers/ControllerUsuario";
-import { ServiceUsuario } from "@/src/Services/ServicesUsuario";
-import { RepositoryUsuario } from "@/src/Repositories/RepositoryUsuario";
-import { NextApiRequest } from "next";
+import {controllerUsuario} from "@/src/factory/Factory";
+import { usuario } from "../../../src/Interfaces/IUsuario";
 
 export async function GET() {
-        const repository = new RepositoryUsuario(modelUsuario)
-        const service = new ServiceUsuario(repository)
-        const controller = new ControllerUsuario(service)
         
-        const result = controller.find()
+    const result =  await controllerUsuario.find()
+    console.log(result)
 
-            return NextResponse.json(result)
+    return NextResponse.json(result)
+
 }
 
 export async function POST(request: Request) {
-    const result = await request.json()
-    console.log(result)
+    const {nome, email, telefone, assuntos, codigoAcesso} = await request.json()
+
+    const usuarioObjetc: usuario = {
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        assuntos: assuntos,
+        codigoAcesso: codigoAcesso
+    }
+
+    try {
+        const result = await controllerUsuario.create(usuarioObjetc)
+    } catch (error) {
+        
+    }
+
+    
     
     return NextResponse.json("OK")
 }

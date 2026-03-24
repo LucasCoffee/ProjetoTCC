@@ -1,0 +1,17 @@
+{
+  "name": "notificador",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "notificador",
+  "workspaceFolder": "/app",
+  "shutdownAction": "none",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "remoteUser": "node"
+}
+ z

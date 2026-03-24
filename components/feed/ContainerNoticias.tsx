@@ -9,7 +9,7 @@ interface IcontainerNoticias{
 
 export default function ContainerNoticias({noticias, registroDeBlocos} : IcontainerNoticias){
     return(
-        <section className=" h-screen overflow-y-scroll snap-y snap-mandatory">
+        <section className=" h-screen overflow-y-scroll snap-y snap-mandatory flex flex-col items-center">
             {
                 noticias.map((noticia, index) => (
                     <BlocoNoticia 
