@@ -1,26 +1,41 @@
-import ContainerTopicos from "@/components/PaginaInicia/containerTopicos";
-import Footer from "@/components/base/footer";
-import dados from "./noti.json"
+// app/page.tsx
+import HeroDestaque from "@/components/PaginaInicial/HeroDestaque"
+import SecaoCategoria from "@/components/PaginaInicial/SecaoCategoria"
+import { Inoticias } from "@/src/Interfaces/Inoticias"
 
+async function getNoticias(): Promise<Inoticias[]> {
+  const res = await fetch(`http://localhost:3000/api/news/everything`, { cache: "no-store" })
+  if (!res.ok) return []
+  const data = await res.json()
+  return data.noticias ?? []
+}
 
-export default function Home() {
+function filtrarPorAssunto(noticias: Inoticias[], assunto: string) {
+  return noticias.filter(n =>
+    n.tags?.assuntos?.some(a => a.toLowerCase().includes(assunto))
+  )
+}
+
+export default async function Home() {
+  const noticias = await getNoticias()
+
+  console.log(noticias)
+
+  const economia = filtrarPorAssunto(noticias, "econom")
+  const politica = filtrarPorAssunto(noticias, "polít")
+  const geral = noticias.filter(n =>
+    !economia.includes(n) && !politica.includes(n)
+  )
+
+  const destaque = economia[0] ?? noticias[0]
   return (
-    <>
-      <section className="bg-gray-100">
-        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-          <h1 className="flex justify-center max-w text-3xl font-bold text-gray-900">Bem-vindo ao TCC</h1>
-          <p className="text-center mt-1 text-gray-700">
-            Encontrei aqui a informacao que você precisava!
-          </p>
-        </div>
-      </section>
-      <section>
-        <ContainerTopicos noticias={dados}></ContainerTopicos>
-        <ContainerTopicos noticias={dados}></ContainerTopicos>
-        <ContainerTopicos noticias={dados}></ContainerTopicos> 
-      </section>
-      <Footer/>
-    </>
-    
+    <main className="bg-gray-50 pb-20"> 
+      <HeroDestaque noticia={destaque} />
+      <SecaoCategoria categoria="economia" noticias={economia.slice(1)} />
+      <div className="mx-4 border-t border-gray-100" />
+      <SecaoCategoria categoria="politica" noticias={politica} />
+      <div className="mx-4 border-t border-gray-100" />
+      <SecaoCategoria categoria="geral" noticias={geral} />
+    </main>
   )
 }
