@@ -1,100 +1,126 @@
+// app/cadastro/page.tsx
 "use client"
-import { FormEvent } from "react";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 
-export default function Perfil() {
+export default function Cadastro() {
+  const router = useRouter()
+  const [form, setForm] = useState({ nome: "", email: "", telefone: "" })
+  const [erro, setErro] = useState("")
+  const [carregando, setCarregando] = useState(false)
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
-    event.preventDefault()
+  function handleChange(campo: string, valor: string) {
+    setForm(prev => ({ ...prev, [campo]: valor }))
+    setErro("")
+  }
 
-    const response = await fetch('/api/usuario', {
-      method: 'POST',
-      body: JSON.stringify(new FormData(event.currentTarget)),
-    });
-
-    const data = await response.json();
-    console.log(data);
-  };
-  
+  async function handleCadastro() {
+    if (!form.nome || !form.email) return setErro("Nome e e-mail são obrigatórios")
+    setErro("")
+    setCarregando(true)
+    try {
+      const res = await fetch("/api/usuario/cadastro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      })
+      const data = await res.json()
+      if (!res.ok) return setErro(data.message ?? "Erro ao cadastrar")
+      router.push("/login")
+    } catch {
+      setErro("Erro ao conectar. Tente novamente.")
+    } finally {
+      setCarregando(false)
+    }
+  }
 
   return (
-    <main className="min-h-[calc(100vh-56px)] bg-gray-100 px-4 py-6 sm:px-6 lg:px-8">
-      <section className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-        <header className="mb-6 space-y-2">
-          <h1 className="text-2xl font-bold text-gray-900">Cadastro de perfil</h1>
-          <p className="text-sm text-gray-600 sm:text-base">
-            Complete os dados para personalizar seus interesses e receber o código de autenticação por SMS.
-          </p>
-        </header>
+    <main className="flex flex-col min-h-screen px-6 bg-gray-50 pb-20">
 
-        <form className="space-y-5" action="#" method="post" onSubmit={handleSubmit}>
-          <div className="space-y-2">
-            <label htmlFor="nome" className="text-sm font-medium text-gray-800">
+      {/* Voltar */}
+      <div className="flex items-center h-14">
+        <button onClick={() => router.back()} className="text-gray-400 text-xl">
+          <i className="ti ti-arrow-left" aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className="flex flex-col flex-1 justify-center">
+        <h1 className="text-[20px] font-medium text-gray-900 tracking-tight mb-1">
+          Criar conta
+        </h1>
+        <p className="text-[13px] text-gray-400 leading-relaxed mb-8">
+          Preencha os dados abaixo para criar sua conta no Noticiador.
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
+            <label htmlFor="nome" className="text-[12px] font-medium text-gray-500 px-1">
               Nome
             </label>
             <input
               id="nome"
-              name="nome"
               type="text"
-              placeholder="Digite seu nome"
-              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              required
+              placeholder="Seu nome"
+              value={form.nome}
+              onChange={e => handleChange("nome", e.target.value)}
+              className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-white text-[14px] text-gray-900 outline-none focus:border-gray-400"
             />
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-gray-800">
+          <div className="flex flex-col gap-1">
+            <label htmlFor="email" className="text-[12px] font-medium text-gray-500 px-1">
               E-mail
             </label>
             <input
               id="email"
-              name="email"
               type="email"
-              placeholder="voce@email.com"
-              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              required
+              placeholder="seu@email.com"
+              value={form.email}
+              onChange={e => handleChange("email", e.target.value)}
+              className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-white text-[14px] text-gray-900 outline-none focus:border-gray-400"
             />
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="telefone" className="text-sm font-medium text-gray-800">
-              Telefone
+          <div className="flex flex-col gap-1">
+            <label htmlFor="telefone" className="text-[12px] font-medium text-gray-500 px-1">
+              Telefone <span className="text-gray-300 font-normal">(opcional)</span>
             </label>
             <input
               id="telefone"
-              name="telefone"
               type="tel"
               placeholder="(00) 00000-0000"
-              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              required
+              value={form.telefone}
+              onChange={e => handleChange("telefone", e.target.value)}
+              className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-white text-[14px] text-gray-900 outline-none focus:border-gray-400"
             />
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="assuntos" className="text-sm font-medium text-gray-800">
-              Assuntos de interesse
-            </label>
-            <textarea
-              id="assuntos"
-              name="assuntos"
-              placeholder="Ex.: tecnologia, esportes, saúde..."
-              className="min-h-28 w-full resize-y rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              required
-            />
-            <p className="text-xs text-gray-500">Separe os assuntos por vírgula para facilitar a personalização.</p>
+          {/* Aviso código */}
+          <div className="flex items-start gap-2.5 bg-white border border-gray-100 rounded-xl px-4 py-3 mt-1">
+            <i className="ti ti-mail text-gray-400 text-[16px] mt-0.5 flex-none" aria-hidden="true" />
+            <p className="text-[12px] text-gray-400 leading-relaxed">
+              Você não precisará criar senha. O acesso é feito com um código enviado para o seu e-mail.
+            </p>
           </div>
 
-          <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
-            Você não precisará criar senha. O acesso será validado com um código de autenticação enviado por SMS.
-          </div>
+          {erro && <p className="text-[12px] text-red-500 px-1">{erro}</p>}
 
           <button
-            type="submit"
-            className="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            onClick={handleCadastro}
+            disabled={carregando}
+            className="w-full h-12 rounded-xl bg-gray-900 text-white text-[14px] font-medium mt-1 disabled:opacity-50"
           >
-            Salvar cadastro
+            {carregando ? "Criando conta..." : "Criar conta"}
           </button>
-        </form>
-      </section>
+
+          <button
+            onClick={() => router.push("/login")}
+            className="text-[12px] text-gray-400 text-center py-1"
+          >
+            Já tenho conta — entrar
+          </button>
+        </div>
+      </div>
     </main>
-  );
+  )
 }

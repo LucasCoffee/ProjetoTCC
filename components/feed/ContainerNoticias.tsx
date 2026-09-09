@@ -11,14 +11,13 @@ export default function ContainerNoticias({ noticias,
 
 {
 
-  console.log(noticias)
-
   return (
     <section 
     className="h-screen overflow-y-scroll snap-y snap-mandatory flex flex-col gap-2.5 px-3 py-3 bg-[#0a0a0a]"
-    style={{ height: "calc(100vh - 100px)" }} 
+    style={{ height: "calc(c55f53785ed5100vh - 100px)" }} 
     >  
-      {noticias.length > 0
+      {
+      noticias?.length > 0 || noticias?.length != undefined
         ? noticias.map((noticia, index) => (
             <BlocoNoticia
               key={noticia._id ?? index}

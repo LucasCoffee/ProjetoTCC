@@ -22,6 +22,7 @@ export default function BlocoNoticia({
   return (
     <div
       ref={refCallback}
+      data-id={noticia._id} 
       className="w-full shrink-0 bg-white rounded-2xl flex flex-col overflow-hidden snap-center"
       style={{ height: "calc(100vh - 120px)" }}
     >
@@ -123,6 +124,8 @@ export default function BlocoNoticia({
           Ler matéria
         </Link>
       </div>
+
+  
     </div>
   )
 }

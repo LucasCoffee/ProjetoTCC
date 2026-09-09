@@ -3,39 +3,30 @@ import HeroDestaque from "@/components/PaginaInicial/HeroDestaque"
 import SecaoCategoria from "@/components/PaginaInicial/SecaoCategoria"
 import { Inoticias } from "@/src/Interfaces/Inoticias"
 
-async function getNoticias(): Promise<Inoticias[]> {
-  const res = await fetch(`http://localhost:3000/api/news/everything`, { cache: "no-store" })
-  if (!res.ok) return []
+interface NoticiasSessao{
+
+  economia: [Inoticias],
+  politica : [Inoticias],
+  geral: [Inoticias]
+}
+
+async function getNoticias(): Promise<NoticiasSessao> {
+  const res = await fetch(`http://localhost:3000/api/news/home`, { cache: "no-store" })
   const data = await res.json()
-  return data.noticias ?? []
+  return data ?? []
 }
-
-function filtrarPorAssunto(noticias: Inoticias[], assunto: string) {
-  return noticias.filter(n =>
-    n.tags?.assuntos?.some(a => a.toLowerCase().includes(assunto))
-  )
-}
-
 export default async function Home() {
-  const noticias = await getNoticias()
+  const noticias: NoticiasSessao = await getNoticias()
 
-  console.log(noticias)
-
-  const economia = filtrarPorAssunto(noticias, "econom")
-  const politica = filtrarPorAssunto(noticias, "polít")
-  const geral = noticias.filter(n =>
-    !economia.includes(n) && !politica.includes(n)
-  )
-
-  const destaque = economia[0] ?? noticias[0]
+  const destaque = noticias.economia[0] ?? noticias.geral[0]
   return (
     <main className="bg-gray-50 pb-20"> 
       <HeroDestaque noticia={destaque} />
-      <SecaoCategoria categoria="economia" noticias={economia.slice(1)} />
+      <SecaoCategoria categoria="economia" noticias={noticias.economia} />
       <div className="mx-4 border-t border-gray-100" />
-      <SecaoCategoria categoria="politica" noticias={politica} />
+      <SecaoCategoria categoria="politica" noticias={noticias.politica} />
       <div className="mx-4 border-t border-gray-100" />
-      <SecaoCategoria categoria="geral" noticias={geral} />
+      <SecaoCategoria categoria="geral" noticias={noticias.geral} />
     </main>
   )
 }

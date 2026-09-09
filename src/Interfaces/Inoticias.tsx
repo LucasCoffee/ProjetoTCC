@@ -10,6 +10,7 @@ export interface Inoticias {
   slug: string
   hash: string
   tags: {
+    sessao: string,
     assuntos: string[]
     entidades: string[]
     referencias: string[]
