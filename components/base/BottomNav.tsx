@@ -5,22 +5,22 @@ import Link from "next/link"
 import React from "react"
 
 const itens = [
-  { href: "/",        label: "Início",  icon: "ti-home"     },
-  { href: "/feed",    label: "Feed",    icon: "ti-rss"      },
-  { href: "/perfil",  label: "Perfil",  icon: "ti-user"     },
+  { href: "/", label: "Início", icon: "ti-home" },
+  { href: "/feed", label: "Feed", icon: "ti-rss" },
+  { href: "/perfil", label: "Perfil", icon: "ti-user" },
 ]
 
 export default function BottomNav() {
   const pathname = usePathname()
   const router = useRouter()
 
-  function handlePerfil(e: React.MouseEvent){
+  function handlePerfil(e: React.MouseEvent) {
     e.preventDefault()
     const token = localStorage.getItem("token")
 
-    if(token){
+    if (token) {
       router.push("/perfil")
-    }else{
+    } else {
       router.push("/acesso")
     }
   }
@@ -33,19 +33,18 @@ export default function BottomNav() {
 
         const ativo = pathname === item.href
 
-
         const conteudo = <>
           <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xl
               ${ativo ? "bg-gray-900 text-white" : "text-gray-400"}`}>
-              <i className={`ti ${item.icon}`} aria-hidden="true" />
-            </div>
-            <span className={`text-[10px] ${ativo ? "text-gray-900 font-medium" : "text-gray-400"}`}>
-              {item.label}
-            </span>
+            <i className={`ti ${item.icon}`} aria-hidden="true" />
+          </div>
+          <span className={`text-[10px] ${ativo ? "text-gray-900 font-medium" : "text-gray-400"}`}>
+            {item.label}
+          </span>
         </>
 
-        if(item.href ===  "/perfil"){
-          
+        if (item.href === "/perfil") {
+
           return (
             <button
               key={item.href}

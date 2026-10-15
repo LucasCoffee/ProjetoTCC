@@ -3,7 +3,7 @@ import type {Inoticias} from "@/src/Interfaces/Inoticias"
 
 export async function GET(req: NextRequest){
   try {
-      const response = await fetch(`http://172.17.0.1:8080/noticias/home`) 
+      const response = await fetch(`http://tcc-servidor-1:8080/noticias/home`) 
       if(response.status == 200){ 
         const noticias : Inoticias[] = await response.json()
         return NextResponse.json(noticias)

@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   try {
 
     const dados = await req.json()
-    const response = await fetch(`http://172.17.0.1:8080/usuario/cadastro`,
+    const response = await fetch(`http://tcc-servidor-1:8080/usuario/cadastro`,
       {
         method: "POST",
         headers: {

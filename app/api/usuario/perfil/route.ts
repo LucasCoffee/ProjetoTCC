@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    const response = await fetch(`http://172.17.0.1:8080/usuario/perfil`, {
+    const response = await fetch(`http://tcc-servidor-1:8080/usuario/perfil`, {
       headers: {
         Authorization: token,          
         "Content-Type": "application/json"

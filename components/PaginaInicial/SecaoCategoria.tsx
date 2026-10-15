@@ -1,6 +1,7 @@
 // components/PaginaInicial/SecaoCategoria.tsx
 import { Inoticias } from "@/src/Interfaces/Inoticias"
 import CardNoticia from "./CardNoticia"
+import Link from "next/link"
 
 const cores: Record<string, string> = {
   economia: "bg-blue-700",
@@ -22,10 +23,12 @@ export default function SecaoCategoria({ categoria, noticias }: Props) {
         <span className={`text-[11px] font-medium text-white px-3 py-0.5 rounded-full ${cores[categoria]}`}>
           {categoria.charAt(0).toUpperCase() + categoria.slice(1)}
         </span>
-        <span className="ml-auto text-[11px] text-gray-400 cursor-pointer">ver tudo</span>
+        <Link href={`/feed?sessao=${categoria}`} ><span className="ml-auto text-[11px] text-gray-400 cursor-pointer">
+          ver tudo</span>
+        </Link>
       </div>
       <div className="flex gap-2.5 px-3 overflow-x-auto scrollbar-hide pb-1">
-        {noticias.slice(0, 3).map(n => (
+        {noticias.slice(0, 10).map(n => (
           <CardNoticia key={n._id} noticia={n} />
         ))}
       </div>
